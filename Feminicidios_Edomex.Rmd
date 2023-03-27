@@ -1,0 +1,1085 @@
+---
+title: "Universidad Autónoma del Estado de México"
+author:
+- Licenciatura en Actuaría
+- ''
+- 'Semestre 2022A'
+- ''
+- ''
+- 'Asignatura: Series de Tiempo'
+- ''
+- ''
+- 'Proyecto Final'
+- ''
+- 'Feminicidios en el Estado de México'
+- ''
+- ''
+- 'Profesor: Daniel Lozano Keymolen'
+- ''
+- ''
+- 'Integrantes del Equipo:'
+- ''
+- Diana Paola Domínguez López
+- Iliana Aylin Maximino Villanueva
+- Jesús Alejandro Torres Ruiz
+- Erik Ricardo Beltrán Romero
+- Marco Antonio García Navarrete
+- ''
+- ''
+- ''
+- ''
+date: "Junio de 2022"
+output:
+  pdf_document: default
+  number_sections: true
+  html_document: default
+subtitle: Facultad de Economía
+fontsize: 12pt
+geometry: left=2cm,right=2cm,top=2cm,bottom=2cm
+lang: es-MX
+toc: yes
+lof: yes
+lot: yes
+linkcolor: blue
+urlcolor: blue
+header-includes:
+  - \usepackage{graphicx}
+  - \usepackage{float}
+  - \floatplacement{figure}{H}
+  - \usepackage{amsmath}
+  - \usepackage{array}
+  - \nocite{*}
+  - \renewcommand{\and}{\\}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhead{}
+  - \fancyhead[L]{Feminicidios en el Estado de México}
+  - \fancyhead[R]{\leftmark}
+  - \fancyfoot{}
+  - \fancyfoot[R]{\thepage}
+  - \fancyfoot[L]{\rightmark}
+  - \renewcommand{\headrulewidth}{1.9pt}
+  - \renewcommand{\footrulewidth}{0.5 pt}
+---
+
+\pagebreak
+
+# Introducción
+Nuestro país se ha enfrentado a uno de los problemas más graves surgidos en los últimos años, puesto que la delincuencia ha traspasado las barreras del control policial. Esta es el fiel reflejo del proceso y acontecer histórico de nuestro tiempo, puesto que hay una privación de la libertad. Mientras que nuestros gobernantes buscan más poder, los grupos delictivos emplean nuevas formas o maneras para llevar a cabo sus propósitos negativos, en consecuencia, la delincuencia se fuerza, se moderniza, se organiza, para tener mejores resultados. Los Feminicidios representan uno de los mas grandes problemas sociales en México que afectan a millones de familias y que va en aumento, en el primer trimestre de este año, en México se han registrado hasta 234 Feminicidios, de acuerdo con el Sistema Nacional de Seguridad Pública.
+
+El presente trabajo de investigación tiene la finalidad de construir un modelo en el cual se pronostique el comportamiento de los Feminicidios en Estado de México, ya que se ha convertido en el estado que encabeza la lista de entidades con mayor número de Feminicidios.
+
+## Incidencia delictiva del Fuero Común
+La incidencia delictiva se refiere a la presunta ocurrencia de delitos registrados en averiguaciones previas iniciadas o carpetas de investigación, reportadas por las Procuradurías de Justicia y Fiscalías Generales de las entidades federativas.
+
+## Delitos de Fuero Común
+Por mandato de la ley, los delitos pueden ser del ***fuero común*** o del ***fuero federal***, es decir, que se persiguen al interior de los estados o en toda la República. Los delitos del fuero común son los que afectan directamente a las personas en
+lo individual. 
+
+## Tipos de Delitos de Fuero Común
+Los delitos que se cometen con mayor frecuencia son:
+
+* Robo a transeúntes.
+* Robo de vehículo.
+* Robo a casa habitación.
+* Robo a camión repartidor.
+* Robo a negocio.
+* Lesiones.
+* Daño en propiedad ajena.
+* Cohecho.
+* Fraude.
+* Delitos sexuales.
+* Homicidio.
+* Feminicidio.
+* Corrupción de menores.
+* Lenocinio.
+* Abuso de autoridad.
+* Allanamiento de morada.
+* Falsificación de documentos.
+* Ataques a la paz pública.
+* Ultrajes a la moral pública.
+* Robo de ganado.
+* Otros.
+
+## Feminicidio
+Los Feminicidios corresponden a la cuantificación de homicidios de mujeres asesinadas por razones de género. La muerte violenta de las mujeres por razones de género, tipificada en nuestro sistema penal como feminicidio, es la forma más extrema de violencia contra la mujer y una de las manifestaciones más graves de la discriminación hacia ellas.
+
+El Primer Tribunal de Crímenes contra la Mujer se inauguró en Bruselas, Bélgica en el año de 1976, convocado por organizaciones de mujeres. Durante el mismo año se realizó una ponencia, en donde alrededor de 2,000 mujeres de 40 países ofrecieron su testimonio y documentaron las distintas formas en las que se manifiesta la violencia de genero. El término “feminicide” argumento Diana Russell en la ponencia, ha estado en uso desde hace mucho tiempo y este apareció por primera vez en “A Satirical View of London” (Inglaterra, 1801). 
+
+Para 1990, Diana Russel y Jane Caputi publican “Speaking the Unspeakable” en la revista MS, en donde definen el término como: “es el asesinato de mujeres realizado por hombres motivado por odio, desprecio, placer o un sentimiento de propiedad de las mujeres”. 
+
+“El feminicidio representa el extremo de un continuum de terror antifemenino que incluye una amplia variedad de abusos verbales y físicos, tales como: violación, tortura, esclavitud sexual (particularmente por prostitución), abuso sexual infantil incestuoso o extrafamiliar, golpizas físicas y emocionales, acoso sexual (por teléfono, en las calles, en la oficina y en el aula), mutilación genital (clitoridectomias, escisión, infibulaciones), operaciones ginecológicas innecesarias (histerectomías), heterosexualidad forzada, esterilización forzada, maternidad forzada (por la criminalización de la contracepción y del aborto), psicocirugía, negación de comida para mujeres en algunas culturas, cirugía plástica y otras mutilaciones en nombre del embellecimiento. Siempre que estas formas de terrorismo resultan en muerte, se convierten en Feminicidios” (Mayorga M.,)
+
+En la Ley General de Acceso de las Mujeres a una Vida Libre de Violencia (LGAMVLV), promulgada en México, se define la violencia feminicida como “la forma extrema de violencia de genero contra las mujeres, producto de la violación de sus derechos humanos, en los ámbitos público y privado, conformada por el conjunto de conductas misóginas que pueden conllevar impunidad social y del Estado y puede culminar en homínido y tras formas de muerte violenta de mujeres”.
+
+\newpage
+
+## Calasificación del Feminicidio dentro de los Delitos de Fuero Común
+El Feninicidio es un tipo de delito en si, y cada tipo de delito puede dividirse en uno o mas ***Subtipos de Delitos***, en el caso del Feminicidio el subtipo de delito es el Feminicidio.
+
+En cada uno de los delitos se puede ver afectado uno o mas de un ***Bien Juridico***, en el caso del Feminicidio, el Bien Juridico afectado es *La vida y la Integridad corporal*, y tambien hay distintas modalidades en las que un delito se puede cometer, en el caso del Feminicidio hay cuatro modalidades principales en las que se puede cometer:
+
+* Con arma de fuego
+* Con arma blanca
+* Con otro elemento
+* No especificado
+
+## Importancia de los Feminicidios en la Sociedad
+Más allá del daño y las consecuencias negativas de la violencia contra las mujeres y los feminicidios, se generan costos elevados en los mercados laborales, que repercuten en la economía de las naciones.
+
+Se estima que la violencia contra las mujeres y los feminicidios tienen costos que aún no se pueden medir o que son muy difíciles de cuantificar, derivados del daño emocional que afecta a las víctimas, a sus familiares y a la sociedad en su conjunto. De hecho, por cada mujer que está inmersa en una situación de violencia, son varias generaciones posteriores que también padecerán las consecuencias. 
+
+Por lo anterior, erradicar la violencia contra las mujeres y los feminicidios es un camino para garantizar una mejor calidad de vida para la sociedad en general, pero también una forma de impactar positivamente en la economía de las naciones.
+
+\clearpage
+
+# Datos 
+
+## Base de Datos
+Los datos fueron extraídos de la pagina oficial del [Secretariado Ejecutivo del Sistema Nacional de Seguridad Publica](https://www.gob.mx/sesnsp), en la sección de *Datos Abiertos de Incidencia Delictiva*: <https://www.gob.mx/sesnsp/acciones-y-programas/datos-abiertos-de-incidencia-delictiva>.
+
+La Base de Datos[^1] contiene el numero de delitos registrados oficialmente por mes, desde Enero de 2015 hasta marzo de 2022. Filtrando esta base de datos para el Estado de México y el delito de Feminicidio, obtenemos los siguientes datos[^2]:
+
+[^1]: La Base de Datos oficial se podrá visualizar en un enlace que se encuentra en los **Anexos** de este documento.
+[^2]: Los Datos con los que se trabajó, también se podrán visualizar en un enlace que se encuentra en los **Anexos**.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+Femin_Edomex <- read.table(url('https://docs.google.com/spreadsheets/d/e/2PACX-1vT3J8xor_OuhY_eF0CJ8wCsvaZagaPovORtguMzeyPKZ_OIVct_Ni-mLW1DVRKiahEGo8AdmzsbeBCI/pub?output=csv'),
+                           header = TRUE, sep = ',')
+
+library(knitr)
+library(kableExtra)
+
+kable(Femin_Edomex, booktabs = TRUE, format = "latex",
+      caption = "Cifras mensuales de Feminicidios en el Estado de México",
+      row.names = FALSE, align = "c", longtable=T) %>%
+  kable_styling(latex_options = c("striped","HOLD_position","condensed","repeat_header"),
+                position = "center",
+                stripe_color = "blue!6",
+                repeat_header_text = "continuaci\\'on",
+                repeat_header_method = "replace",
+                repeat_header_continued="contin\\'ua en la siguiente p\\'agina")%>%
+  row_spec(row = 0, bold = TRUE, align = "c", font_size = 12)
+```
+
+## Horizonte de pronostico
+El horizonte de pronostico deseado es de 9 meses, es decir 9 datos, para observar el comportamiento de los Feminicidios lo que resta del año 2022, esto solo se lograra si el modelo ajustado a nuestros datos cumple con todas las condiciones necesarias para hacer un buen pronostico, en caso de que el modelo no pronostique adecuadamente a largo plazo, solo pronosticaremos 3 meses para observar el comportamiento de los Feminicidios a mitad de año, de esta manera no alejamos demasiado los pronósticos y estos pueden ser consistentes con la realidad.
+
+Además, esto es consistente con la regla de no pronosticar más del $10\%$ de nuestros datos, ya que tenemos 87 datos mensuales no pronosticaremos más allá de 9 meses ($87 \times 10\% \approx 9$ meses). Por lo tanto, en caso de que el modelo pronostique correctamente a largo plazo, pronosticaremos el número de Feminicidios en el Estado de México a partir del mes de Abril de 2022 hasta el mes de Diciembre de 2022, en caso contrario del mes de Abril de 2022 hasta el mes de Junio de 2022.
+
+\newpage
+
+# Analisis de Series de Tiempo
+## Metodología Box-Jenkins
+La metodología de ***Box-Jenkins***, nombrada así en honor a los estadísticos *George E. P. Box* y *Gwilym Jenkins*, es comúnmente usada en el análisis de series de tiempo, se aplica a los modelos autorregresivos de media móvil ARMA o a los modelos autorregresivos integrados de media móvil (ARIMA) para encontrar el mejor ajuste de una serie temporal de valores, a fin de que los pronósticos sean más acertados.
+
+Los pasos a seguir son los siguentes:
+
+1. Identificación del modelo
+
+* Identificar estacionariedad y estacionalidad 
+* Identificar los parametros del modelo (p,q)
+
+2. Estimación del modelo
+
+* Ajustar el modelo
+* Validar los errores del modelo (Independencia y Normalidad)
+
+3. Pronósticos
+
+Llevaremos acabo este análisis en el software estadístico **R**. Utilizaremos varios paquetes estadísticos de este software que contienen funciones que permiten llevar a cabo este análisis, `ggplot2`, `forecast`, `ggpubr`, `fpp2`, `tseries` y `stargazer`.
+
+\newpage
+
+## Grafica
+Los datos se convirtieron a una serie de tiempo mediante a la función `ts()`, ademas utilizamos la función `autoplot()` para hacer la gráfica junto con arreglos estéticos del paquete `ggplot`.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(forecast)
+library(ggpubr)
+library(fpp2)
+library(tseries)
+library(ggthemes)
+library(ggdark)
+
+### Serie de Tiempo ###
+Femin_Edomex_st <- ts(Femin_Edomex[,3], frequency = 12, start = c(2015,1))
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap='Serie de tiempo de los Feminicidios en el Estado de México.', fig.width=6.5, fig.height=4}
+### Grafica ####
+autoplot(Femin_Edomex_st)+
+  geom_line(color="dodgerblue2",lwd=1)+
+  labs(title = "Feminicidios en el Estado de México",
+       subtitle = "Serie de Tiempo",
+       x="Tiempo", y="Feminicidios",
+       caption = "Fuente: Secretariado Ejecutivo del Sistema Nacional de Seguridad Pública")+
+  theme_economist_white()
+```
+
+## Estadisticos de Raiz Unitaria
+Para verificar si la serie tiene estacionariedad o no, probaremos los estadísticos de Raíz Unitaria.
+
+### Test Dickey-Fuller Aumentado
+$$H_0:Hay~Raiz~Unitaria=No~Estacionariedad$$
+$$H_a:No~Hay~Raiz~Unitaria=Estacionariedad$$
+
+El objetivo de esta prueba es rechazar la **Hipótesis Nula** ($H_0$) para comprobar que hay estacionariedad, por lo tanto, buscamos un p-value menor a $0.01$. Es posible hacer el calculo de esta prueba en el software **R** con la función `adf.test()`.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+adf.test(Femin_Edomex_st)
+```
+
+El p-value es de $0.04021$, por lo que aceptamos la Hipótesis Nula, es decir, la serie no es estacionaria. 
+
+### KPSS Test
+$$H_0:No~Hay~Raiz~Unitaria=Estacionariedad$$
+$$H_a:Hay~Raiz~Unitaria=No~Estacionariedad$$
+
+El objetivo de esta prueba es aceptar la **Hipótesis Nula** ($H_0$) para comprobar que hay estacionariedad, por lo tanto, buscamos un p-value mayor a $0.05$. Es posible hacer el calculo de esta prueba en el software **R** con la función `kpss.test()`.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+kpss.test(Femin_Edomex_st)
+```
+
+El p-value es de $0.01$, por lo que rechazamos la Hipótesis Nula, es decir, la serie no es estacionaria.
+
+\newpage
+
+## Primeras Diferencias 
+Puesto que el proceso de la serie no es estacionario, se procede a realizar primeras diferencias, que solamente es restar la observación actual con la observación anterior, de modo que se pierde la primer observación ya que no hay observación anterior con quien restarla, esto se hace con la función `diff()` y el grafico con `autoplot()`.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+Femin_Edomex_dif1 <- diff(Femin_Edomex_st)
+```
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.cap='Primeras Diferencias de los Feminicidios en el Estado de México.', fig.width=6.5, fig.height=3.8}
+autoplot(Femin_Edomex_dif1)+
+  geom_line(color="seagreen3",lwd=0.8)+
+  labs(title = "Primeras Diferencias",
+       subtitle = "Serie: Feminicidios en el Estado de México",
+       x="Tiempo", y="Yt",
+       caption = "Fuente: Elaboración propia") +
+  theme_economist_white(gray_bg = FALSE)
+```
+
+### Test Dickey-Fuller Aumentado
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+adf.test(Femin_Edomex_dif1)
+```
+
+El p-value es de $0.01$, por lo que rechazamos la Hipótesis Nula, es decir, la serie es estacionaria en primeras diferencias.
+
+### KPSS Test
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+kpss.test(Femin_Edomex_dif1)
+```
+
+El p-value es de $0.1$, por lo que aceptamos la Hipótesis Nula, es decir, la serie es estacionaria en primeras diferencias.
+
+## Graficos de Autocorrelación
+Ahora se mostraran los gráficos de autocorrelación que ayudaran a identificar los retardos significativos de la serie en primeras diferencias para hallar los componentes de la ecuación $ARIMA(p,d,q)$.
+
+### Grafico de Autocorrelación (ACF)
+La ***Autocorrelación*** es una característica que consiste en que, elementos cercanos en el espacio o en el tiempo se parecen más entre sí que con respecto a elementos más lejanos, solamente por el hecho de estar cerca. 
+
+La ***Función de Autocorrelación (ACF)*** es una función de la similitud entre dos observaciones a la diferencia de tiempo entre ellas. Es una herramienta matemática de gran utilidad para encontrar patrones repetitivos. Y en el análisis de series de tiempo ayuda a determinar los rezagos apropiados $q$ en un modelo $MA(q)$ o en uno $ARIMA(p,d,q)$. En el software **R** podemos obtener esta función con el comando `ggAcf()`.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.cap='ACF de las primeras diferencias de los Feminicidios en el Edomex.', fig.width=6, fig.height=3.5}
+ggAcf(Femin_Edomex_dif1, lag.max = 85, lwd=1, color="orangered") +
+  labs(title = "Grafico de Autocorrelación",
+       subtitle = "Feminicidios en Edomex, primeras diferencias",
+       caption = "Fuente: Elaboración propia") +
+  theme_economist_white(gray_bg = FALSE)
+```
+
+### Grafico de Autocorrelación Parcial (PACF)
+La ***Autocorrelación parcial*** es un resumen de la relación entre las observaciones de series de tiempo después de eliminar la interferencia y las observaciones de series de tiempo largas en pasos de tiempo anteriores.
+
+La ***Función de Autocorrelación Parcial (PACF)*** juega un papel importante en los análisis de datos dirigidos a la identificación de la medida del desfase en un modelo autorregresivo y en series de tiempo ayuda a determinar los rezagos apropiados $p$ en un modelo $AR(p)$ o en uno $ARIMA(p,d,q)$. En el software **R** podemos obtener esta función con el comando `ggPacf()`.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE, fig.align='center', fig.cap='PACF de las primeras diferencias de los Feminicidios en el Edomex.', fig.width=6, fig.height=3.5}
+ggPacf(Femin_Edomex_dif1, lag.max = 85,lwd=1, color="orangered") + 
+  labs(title = "Grafico de Autocorrelación Parcial",
+       subtitle = "Feminicidios en Edomex, primeras diferencias",
+       caption = "Fuente: Elaboración propia") +
+  theme_economist_white(gray_bg = FALSE)
+```
+
+\newpage
+
+# Modelo ARIMA
+Un modelo $ARIMA(p,d,q)$ hace referencia a un modelo autorregresivo y media móvil (ARMA) integrado $d$ veces.
+
+En primer lugar, tenemos el componente **AR** del modelo. Es decir, la parte autorregresiva del modelo $ARIMA(p,d,q)$.
+
+En segundo lugar, tenemos el componente **MA** del modelo. Es decir, la parte media móvil del modelo $ARIMA(p,d,q)$. 
+
+Por último, tenemos el componente I del modelo. Es decir, la parte integrada del modelo $ARIMA(p,d,q)$. En el mismo, debemos tener en cuenta que lo más importante es su orden de integración I. Este orden, es el número de veces que es necesario diferenciar un modelo para pasar de ser no estacionario a estacionario.
+
+$$ARIMA(\overbrace{{\large p}}^{Comp.~Autorregresivo},\underbrace{{\large d}}_{Comp.~Integrado}, \overbrace{{\large q}}^{Comp.~Media~Movil})$$
+
+$$ARIMA(\overbrace{{\large p}}^{Retardos~sig.~en~PACF},\underbrace{{\large d}}_{Diferencias}, \overbrace{{\large q}}^{Retardos~sig.~en~ACF})$$
+
+## Identificación del Modelo
+De acuerdo al gráfico de Autocorrelación y Autocorrelación Parcial de la serie en primeras diferencias podemos identificar que la ecuación ARIMA que se podría ajustar mejor a los datos es:
+$$ARIMA(\overbrace{{\Large 4}}^{Retardos~sig.~en~PACF},\underbrace{{\Large 1}}_{Diferencias}, \overbrace{{\Large 2}}^{Retardos~sig.~en~ACF})$$
+
+Ya que hay cuatro retardos significativos en el Grafico de Autocorrelación Parcial (PACF), es decir en el componente autorregresivo $AR(p)$, se trunca en el retardo dos en el Grafico de Autocorrelación (ACF), es decir en el componente de media móvil $MA(q)$ y el componente integrado es el numero de diferencias que hemos aplicado a la serie que es uno.
+
+Sin embargo, propondremos otras ecuaciones que también se podrían ajustar a los datos, para tener un conjunto de ecuaciones, y así comparar cada una en términos estadísticos y determinar cual es la mejor para hacer pronósticos.
+
+Empezaremos con el componente de medias móviles $q=2$, e iremos cambiando el componente autorregresivo $p$:
+$$ARIMA(4,1,2)$$
+$${\large \downarrow}$$
+$$ARIMA(3,1,2)$$
+$${\large \downarrow}$$
+$$ARIMA(2,1,2)$$
+
+Ahora cambiaremos el componente de medias móviles $q=1$, de igual manera, iremos cambiando el componente autorregresivo $p$:
+$$ARIMA(4,1,1)$$
+$${\large \downarrow}$$
+$$ARIMA(3,1,1)$$
+$${\large \downarrow}$$
+$$ARIMA(2,1,1)$$
+
+De estas ecuaciones seleccionaremos la mejor en base a la significancia de los coeficientes, el Criterio de Información de Akaike y al *principio de parsimonia*.
+
+## Ajuste de ecuaciones ARIMA
+Las ecuaciones se ajustaron mediante la función `arima()`, ademas añadimos la ecuación que recomienda la función `auto.arima()` del paquete `forecast`, para compararla con las demás ecuaciones obtenidas. 
+
+Las ecuaciones ARIMA se presentan en una tabla que proporciona la función `stargazer()`, en donde se presenta el valor del coeficiente ajustado ya sea el autorregresivo o el de medias móviles, proporciona entre paréntesis el error estándar del coeficiente, a la derecha de estos valores se pueden ver asteriscos que indican el p-value de su prueba estadística con los cuales se puede verificar la significancia del coeficiente. En la parte inferior se presentan estadísticos como el *Criterio de Información de Akaike (AIC)*, el *coeficiente de Máxima Verosimilitud (Log-Likelihood)* y el numero de datos que se usaron para calcular los coeficientes.
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+arima412 <- arima(Femin_Edomex_st, order=c(4,1,2))
+arima312 <- arima(Femin_Edomex_st, order=c(3,1,2))
+arima212 <- arima(Femin_Edomex_st, order=c(2,1,2))
+arima411 <- arima(Femin_Edomex_st, order=c(4,1,1))
+arima311 <- arima(Femin_Edomex_st, order=c(3,1,1))
+arima211 <- arima(Femin_Edomex_st, order=c(2,1,1))
+arima011 <- arima(Femin_Edomex_st, order=c(0,1,1))
+
+residuos412 <- arima412$residuals
+residuos312 <- arima312$residuals
+residuos212 <- arima212$residuals
+residuos411 <- arima411$residuals
+residuos311 <- arima311$residuals
+residuos211 <- arima211$residuals
+residuos011 <- arima011$residuals
+```
+
+```{r echo=FALSE, results='asis',message=FALSE, warning=FALSE, eval=TRUE}
+library(rmarkdown)
+library(tinytex)
+library(stargazer)
+library(sandwich)
+
+stargazer(arima412, arima312, arima212,
+          title="Comparación de Ecuaciones ARIMA con MA(2)",
+          type = "latex",
+          float = TRUE,
+          report = "vcs*",
+          no.space = TRUE,
+          header=FALSE,
+          model.names=TRUE,
+          table.placement = "H",
+          single.row = TRUE,
+          font.size = "small",
+          intercept.bottom = F,
+          column.labels = c("ARIMA(4,1,2)","ARIMA(3,1,2)","ARIMA(2,1,2)"),
+          column.separate = c(1,1,1),
+          digits = 3,
+          t.auto = F,
+          p.auto = F,
+          notes.align = "r",
+          notes = c("Datos: Feminicidios en el Estado de México"),
+          notes.append = TRUE
+          )
+```
+
+```{r echo=FALSE, results='asis',message=FALSE, warning=FALSE, eval=TRUE}
+
+stargazer(arima411, arima311, arima211, arima011,
+          title="Comparación de Ecuaciones ARIMA con MA(1)",
+          type = "latex",
+          float = TRUE,
+          report = "vcs*",
+          no.space = TRUE,
+          header=FALSE,
+          model.names=TRUE,
+          table.placement = "H",
+          single.row = TRUE,
+          font.size = "small",
+          intercept.bottom = F,
+          column.labels = c("ARIMA(4,1,1)","ARIMA(3,1,1)","ARIMA(2,1,1)","ARIMA(0,1,1)"),
+          column.separate = c(1,1,1,1),
+          digits = 3,
+          t.auto = F,
+          p.auto = F,
+          notes.align = "r",
+          notes = c("Datos: Feminicidios en el Estado de México", "auto.arima: ARIMA(0,1,1)"),
+          notes.append = TRUE
+          )
+```
+
+## Analisis de Residuos
+### Independencia: Test de Box-Pierce
+La prueba estadística de **Box-Pierce** es una versión simplificada de la estadística de **Ljung-Box**. El test de **Box-Pierce** se puede definir de la siguiente manera:
+$$H_0:~Los~datos~se~distribuyen~de~forma~independiente$$
+$$H_a:~Los~datos~no~se~distribuyen~de~forma~independiente$$
+
+Aplicaremos esta prueba a cada uno de los residuos de las ecuaciones $ARIMA$ anteriormente ajustadas.
+
+El objetivo que buscamos es aceptar la hipótesis nula ($H_0$), por lo que un p-value mayor a $0.05$ seria lo adecuado. Es posible hacer el calculo de esta prueba en el software **R** con la función `Box.test()`.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+Residuos <- c("ARIMA(4,1,2)", "ARIMA(3,1,2)", "ARIMA(2,1,2)", "ARIMA(4,1,1)", 
+              "ARIMA(3,1,1)", "ARIMA(2,1,1)","ARIMA(0,1,1)")
+
+X.squared <- c(Box.test(residuos412)$statistic,
+               Box.test(residuos312)$statistic,
+               Box.test(residuos212)$statistic,
+               Box.test(residuos411)$statistic,
+               Box.test(residuos311)$statistic,
+               Box.test(residuos211)$statistic,
+               Box.test(residuos011)$statistic)
+
+p.value <- c(Box.test(residuos412)$p.value,
+             Box.test(residuos312)$p.value,
+             Box.test(residuos212)$p.value,
+             Box.test(residuos411)$p.value,
+             Box.test(residuos311)$p.value,
+             Box.test(residuos211)$p.value,
+             Box.test(residuos011)$p.value)
+
+BoxPierceTest <- data.frame(Residuos, X.squared, p.value)
+colnames(BoxPierceTest) <- c("Residuos de ecuación:", "Chi-squared", "p-value")
+
+library(knitr)
+library(kableExtra)
+
+kable(BoxPierceTest, booktabs = TRUE, format = "latex", 
+      caption="Prueba de Independencia Box-Pierce",
+      row.names = FALSE, align = "c") %>%
+  kable_styling(latex_options = c("striped","HOLD_position","condensed"),
+                position = "center",
+                stripe_color = "orange!6") %>%
+  row_spec(row = 0, bold = TRUE, align = "c", font_size = 12)
+```
+
+De acuerdo al p-value podemos concluir que todos los residuos pasan la prueba y por lo tanto se distribuyen independientemente.
+
+### Normalidad: Test de Jarque-Bera
+En estadística, la prueba de **Jarque-Bera** es una prueba de bondad de ajuste para comprobar si una muestra de datos tiene la asimetría y la curtosis de una *distribución normal*. La prueba recibe el nombre de *Carlos Jarque* y *Anil K. Bera*. La prueba se define de la siguiente manera:
+$$H_0:~Los~datos~se~distribuyen~normalmente$$
+$$H_a:~Los~datos~no~se~distribuyen~normalmente$$
+
+Aplicaremos esta prueba a cada uno de los residuos de las ecuaciones $ARIMA$ anteriormente ajustadas.
+
+El objetivo que buscamos es aceptar la hipótesis nula ($H_0$), por lo que un p-value mayor a $0.05$ seria lo adecuado. Es posible hacer el calculo de esta prueba en el software **R** con la función `jarque.bera.test()`.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+X_squared <- c(jarque.bera.test(residuos412)$statistic,
+               jarque.bera.test(residuos312)$statistic,
+               jarque.bera.test(residuos212)$statistic,
+               jarque.bera.test(residuos411)$statistic,
+               jarque.bera.test(residuos311)$statistic,
+               jarque.bera.test(residuos211)$statistic,
+               jarque.bera.test(residuos011)$statistic)
+
+p_value <- c(jarque.bera.test(residuos412)$p.value,
+             jarque.bera.test(residuos312)$p.value,
+             jarque.bera.test(residuos212)$p.value,
+             jarque.bera.test(residuos411)$p.value,
+             jarque.bera.test(residuos311)$p.value,
+             jarque.bera.test(residuos211)$p.value,
+             jarque.bera.test(residuos011)$p.value)
+
+JarqueBeraTest <- data.frame(Residuos, X_squared, p_value)
+colnames(JarqueBeraTest) <- c("Residuos de ecuación:", "Chi-squared", "p-value")
+
+kable(JarqueBeraTest, booktabs = TRUE, format = "latex", 
+      caption="Prueba de Normalidad Jarque-Bera",
+      row.names = FALSE, align = "c") %>%
+  kable_styling(latex_options = c("striped","HOLD_position","condensed"),
+                position = "center",
+                stripe_color = "green!6") %>%
+  row_spec(row = 0, bold = TRUE, align = "c", font_size = 12)
+```
+
+De acuerdo al p-value podemos concluir que todos los residuos pasan la prueba y por lo tanto se distribuyen normalmente.
+
+\newpage
+
+## Selección del Modelo
+De acuerdo al criterio de AIC, las pruebas de independencia y normalidad de los errores, el mejor de los modelos propuestos es la ecuación $ARIMA(2,1,1)$, sin embargo el modelo que dio como resultado de aplicar la función `auto.arima()` ($ARIMA(0,1,1)$) mostró mejores estadísticos, así que utilizaremos estos dos modelos para pronosticar y nos quedaremos con el que muestre los mejores pronósticos.
+
+```{r echo=FALSE, results='asis',message=FALSE, warning=FALSE, eval=TRUE}
+
+stargazer(arima211, arima011,
+          title="Mejores Ecuaciones ARIMA",
+          type = "latex",
+          float = TRUE,
+          report = "vcs*",
+          no.space = TRUE,
+          header=FALSE,
+          model.names=TRUE,
+          table.placement = "H",
+          single.row = TRUE,
+          font.size = "small",
+          intercept.bottom = F,
+          column.labels = c("ARIMA(2,1,1)","auto.arima: ARIMA(0,1,1)"),
+          column.separate = c(1,1),
+          digits = 3,
+          t.auto = F,
+          p.auto = F,
+          notes.align = "r",
+          notes = c("Datos: Feminicidios en el Estado de México"),
+          notes.append = TRUE
+          )
+```
+
+\newpage
+
+# Pronósticos
+## Pronósticos de ARIMA(0,1,1)
+Comenzaremos realizando los pronósticos de la ecuación $ARIMA(0,1,1)$, solo con un horizonte de 3 observaciones, es decir, el numero de feminicidios dentro de los próximos 3 meses, para observar si los pronósticos tienen un buen comportamiento o no. La siguiente tabla con tiene los pronósticos de cada mes junto con sus intervalos de confianza superiores e inferiores a un nivel de confianza del $80\%$ y $95\%$.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+pronos.arima011 <- forecast(arima011, h=3)
+
+pronosticos011 <- data.frame(round(pronos.arima011$mean, digits = 0),
+                             round(pronos.arima011$lower[,1], digits = 0),
+                             round(pronos.arima011$upper[,1], digits = 0),
+                             round(pronos.arima011$lower[,2], digits = 0),
+                             round(pronos.arima011$upper[,2], digits = 0))
+colnames(pronosticos011) <- c("Pronóstico","Inf 80%", "Sup 80%", 
+                              "Inf 95%", "Sup 95%")
+rownames(pronosticos011) <- c("Abril 2022","Mayo 2022","Junio 2022")
+
+kable(pronosticos011, booktabs = TRUE, format = "latex", 
+      caption="Pronosticos de ARIMA(0,1,1)",
+      row.names = TRUE, align = "c") %>%
+  kable_styling(latex_options = c("striped","HOLD_position","condensed"),
+                position = "center",
+                stripe_color = "blue!6") %>%
+  row_spec(row = 0, bold = TRUE, align = "c", font_size = 12)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap='Pronostico de los Feminicidios en el Estado de México con ARIMA(0,1,1).', fig.width=6, fig.height=3.8}
+autoplot(pronos.arima011)+
+  labs(title = "Pronosticos de ARIMA(0,1,1)",
+       subtitle = "Feminicidios en el Estado de México",
+       x="Tiempo", y="Feminicidios",
+       caption = "Fuente: Elaboración Propia")+
+  theme_economist_white(gray_bg = FALSE)
+```
+
+Puesto que los pronósticos son la media de la serie, no intentaremos realizar pronósticos con un horizonte más largo ya que no se ajustan a la realidad y por lo tanto no nos sirven para realizar un buen pronostico.
+
+## Pronósticos de ARIMA(2,1,1)
+Ahora realizaremos los pronósticos de la ecuación $ARIMA(2,1,1)$, con un horizonte de 3 observaciones, es decir, el numero de feminicidios dentro de los próximos 3 meses, para observar si los pronósticos tienen un buen comportamiento o no. La siguiente tabla con tiene los pronósticos de cada mes junto con sus intervalos de confianza superiores e inferiores a un nivel de confianza del $80\%$ y $95\%$.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+pronos.arima211 <- forecast(arima211, h=3)
+
+pronosticos211 <- data.frame(round(pronos.arima211$mean, digits = 0),
+                             round(pronos.arima211$lower[,1], digits = 0),
+                             round(pronos.arima211$upper[,1], digits = 0),
+                             round(pronos.arima211$lower[,2], digits = 0),
+                             round(pronos.arima211$upper[,2], digits = 0))
+colnames(pronosticos211) <- c("Pronóstico","Inf 80%", "Sup 80%", 
+                              "Inf 95%", "Sup 95%")
+rownames(pronosticos211) <- c("Abril 2022","Mayo 2022","Junio 2022")
+
+kable(pronosticos211, booktabs = TRUE, format = "latex", 
+      caption="Pronosticos de ARIMA(2,1,1)",
+      row.names = TRUE, align = "c") %>%
+  kable_styling(latex_options = c("striped","HOLD_position","condensed"),
+                position = "center",
+                stripe_color = "blue!6") %>%
+  row_spec(row = 0, bold = TRUE, align = "c", font_size = 12)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap='Pronostico de los Feminicidios en el Estado de México con ARIMA(2,1,1).', fig.width=6, fig.height=3.8}
+autoplot(pronos.arima211)+
+  labs(title = "Pronosticos de ARIMA(2,1,1)",
+       subtitle = "Feminicidios en el Estado de México",
+       x="Tiempo", y="Feminicidios",
+       caption = "Fuente: Elaboración Propia")+
+  theme_economist_white(gray_bg = FALSE)
+```
+
+Ya que observamos un buen comportamiento de los pronósticos, intentaremos pronosticar con un horizonte más largo. El horizonte deseado es de 9 observaciones, es decir, el numero de feminicidios dentro de los próximos 9 meses, justo al final del año 2022. En la tabla se muestran los pronósticos de cada mes junto con sus intervalos de confianza superiores e inferiores a un nivel de confianza del $80\%$ y $95\%$.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+pronos.arima211.9 <- forecast(arima211, h=9)
+
+pronosticos211.9 <- data.frame(round(pronos.arima211.9$mean, digits = 0),
+                               round(pronos.arima211.9$lower[,1], digits = 0),
+                               round(pronos.arima211.9$upper[,1], digits = 0),
+                               round(pronos.arima211.9$lower[,2], digits = 0),
+                               round(pronos.arima211.9$upper[,2], digits = 0))
+colnames(pronosticos211.9) <- c("Pronóstico","Inf 80%", "Sup 80%", 
+                                "Inf 95%", "Sup 95%")
+rownames(pronosticos211.9) <- c("Abril 2022","Mayo 2022","Junio 2022","Julio 2022",
+                                "Agosto 2022","Septiembre 2022","Octubre 2022",
+                                "Noviembre 2022","Diciembre 2022")
+
+kable(pronosticos211.9, booktabs = TRUE, format = "latex", 
+      caption="Pronosticos de ARIMA(2,1,1)",
+      row.names = TRUE, align = "c") %>%
+  kable_styling(latex_options = c("striped","HOLD_position","condensed"),
+                position = "center",
+                stripe_color = "blue!6") %>%
+  row_spec(row = 0, bold = TRUE, align = "c", font_size = 12)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap='Pronostico de los Feminicidios en el Edomex con ARIMA(2,1,1) con horizonte de 9 obs.', fig.width=6, fig.height=3.8}
+autoplot(pronos.arima211.9)+
+  labs(title = "Pronosticos de ARIMA(2,1,1)",
+       subtitle = "Feminicidios en el Estado de México",
+       x="Tiempo", y="Feminicidios",
+       caption = "Fuente: Elaboración Propia")+
+  theme_economist_white(gray_bg = FALSE)
+```
+
+Vemos que con un horizonte de pronostico largo, estos tienden a la media de la serie, por lo que no son consistentes con la realidad y por lo tanto no utilizaremos pronósticos con un horizonte muy largo.
+
+\newpage
+
+## Selección de Pronósticos
+Los pronósticos que mostraron un mejor desempeño fueron los de la ecuación $ARIMA(2,1,1)$ con un horizonte de 3 observaciones, por lo tanto, solo pronosticaremos el numero de Feminicidios en el Estado de México dentro de los proximos 3 meses, para observar el comportamiento de los Feminicidios a midad de año. 
+
+En la tabla se muestran los pronósticos de cada mes junto con sus intervalos de confianza superiores e inferiores a un nivel de confianza del $80\%$ y $95\%$.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+kable(pronosticos211, booktabs = TRUE, format = "latex", 
+      caption="Pronosticos de ARIMA(2,1,1)",
+      row.names = TRUE, align = "c") %>%
+  kable_styling(latex_options = c("striped","HOLD_position","condensed"),
+                position = "center",
+                stripe_color = "blue!6") %>%
+  row_spec(row = 0, bold = TRUE, align = "c", font_size = 12)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap='Pronostico final de los Feminicidios en el Estado de México con ARIMA(2,1,1).', fig.width=6.5, fig.height=4}
+autoplot(pronos.arima211)+
+  labs(title = "Pronosticos de ARIMA(2,1,1)",
+       subtitle = "Feminicidios en el Estado de México",
+       x="Tiempo", y="Feminicidios",
+       caption = "Fuente: Elaboración Propia")+
+  theme_economist_white(gray_bg = TRUE)
+```
+
+\newpage
+
+# Conclusiones
+La mundialización de las actividades delictivas ha planteado la necesidad de reforzar las formas y los mecanismos de cooperación internacional, pues es uno de los principales problemas que enfrenta hoy en día nuestra sociedad.
+
+La delincuencia en México es un problema que nos afecta a cada uno de nosotros, todos los días y en un ambiente de desigualdad, machismo, racismo, discriminación y pobreza, las mujeres son las mas afectadas y muestra de esto, es el reciente incremento de Feminicidios en todo el país.
+
+De acuerdo a nuestro análisis, los Feminicidios en el Estado de México claramente representan una tendencia al alza y muy posiblemente va a seguir en aumento. Esto es un problema social grave, cuyo impacto no podríamos medir pero que sin duda trae consigo efectos negativos no solo en el ámbito social, sino también en el ámbito económico, político, educativo, entre muchos otros. 
+
+Solucionar este problema no es una tarea fácil, puesto que se requiere de mucho tiempo, quizá ni en una o dos generaciones podamos ver cambios, además se necesita no solo de la participación de las autoridades sino de toda la sociedad en general y de una buena educación no solo en el ámbito académico, también en el ámbito social y familiar.
+
+# Referencias
+
+* Secretariado Ejecutivo del Sistema Nacional de Seguridad Pública (SESNSP). (s.f.). *Datos Abiertos de Incidencia Delictiva*. <https://www.gob.mx/sesnsp/acciones-y-programas/datos-abiertos-de-incidencia-delictiva>.
+
+* Comisión Nacional para Prevenir y Erradicar la Violencia Contra las Mujeres (CONAVIM). (s.f.). *¿Qué es el feminicidio y cómo identificarlo?*. <https://www.gob.mx/conavim/articulos/que-es-el-feminicidio-y-como-identificarlo?idiom=es>.
+
+* Redacción El Economista 03 de febrero de 2022, 14:57, de Sinaloa, G., Monroy, J., & Ramos, R. (2022, 3 febrero). *¿Cuáles fueron los estados con más feminicidios en México durante 2021?* El Economista. <https://www.eleconomista.com.mx/politica/Cuales-fueron-los-estados-con-mas-feminicidios-en-Mexico-durante-2021-20220203-0082.html>. 
+
+* Mayorga Revoreda, Martin Armando (2015). *Análisis del Estado Actual del Feminicidio en México desde un Enfoque Socio Jurídico*. México: UAEH. <https://www.uaeh.edu.mx/xiii_congreso_empoderamiento_fem/documentos/pdf/C015.pdf>.
+
+\newpage
+
+# Anexos
+## Bases de Datos
+
+* **BASE DE DATOS**: Es la base de datos oficial del secretariado *Ejecutivo del Sistema Nacional de Seguridad Publica* donde se encuentran los registros de todos los delitos a nivel estatal, <https://drive.google.com/file/d/1WeUKPexAG3nRQ_0l9p4W77SrjZ1qy7cv/view>.
+
+* **BASE DE DATOS PARA R**: Es la base de datos que se obtuvo al filtrar el *Estado de México* y el delito de *Feminicidio* de la base oficial y la que ocupamos para hacer el Análisis de Series de Tiempo en *R*, <https://docs.google.com/spreadsheets/d/1MlWLzD1uGmmZZ0_a84UQ9fUsrV3bfq-nLnO7zLOc2kA/edit?usp=sharing>.
+
+## Codigo en R
+El código del software estadístico **R** que fue utilizado para elaborar este trabajo con la ayuda de ***R Markdown***, que permite escribir informes que contengan código **R**, se presenta a continuación:
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Lectura de la Base de Datos
+
+Femin_Edomex <- read.table(url('https://docs.google.com/spreadsheets/d/e/
+                                2PACX-1vT3J8xor_OuhY_eF0CJ8wCsvaZagaPovORtguMzeyPKZ_
+                                OIVct_Ni-mLW1DVRKiahEGo8AdmzsbeBCI/pub?output=csv'),
+                           header = TRUE, sep = ',')
+
+### Tabla de la Base de datos
+
+library(knitr)
+library(kableExtra)
+
+kable(Femin_Edomex, booktabs = TRUE, format = "latex",
+      caption = "Cifras mensuales de Feminicidios en el Estado de México",
+      row.names = FALSE, align = "c", longtable=TRUE) %>%
+  kable_styling(latex_options = c("striped","HOLD_position","condensed","repeat_header"),
+                position = "center",
+                stripe_color = "blue!6",
+                repeat_header_text = "continuaci\\'on",
+                repeat_header_method = "replace",
+                repeat_header_continued="contin\\'ua en la siguiente p\\'agina")%>%
+  row_spec(row = 0, bold = TRUE, align = "c", font_size = 12)
+```
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Paquetes que ayudan al análisis de Series de Tiempo
+
+library(ggplot2)
+library(forecast)
+library(ggpubr)
+library(fpp2)
+library(tseries)
+library(ggthemes)
+library(ggdark)
+
+### Serie de Tiempo ###
+Femin_Edomex_st <- ts(Femin_Edomex[,3], frequency = 12, start = c(2015,1))
+
+### Grafica ####
+autoplot(Femin_Edomex_st)+
+  geom_line(color="dodgerblue2",lwd=1)+
+  labs(title = "Feminicidios en el Estado de México",
+       subtitle = "Serie de Tiempo",
+       x="Tiempo", y="Feminicidios",
+       caption = "Fuente: Secretariado Ejecutivo del Sistema Nacional de Seguridad Pública")+
+  theme_economist_white()
+```
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Estadísticos de Raíz Unitaria de la Serie
+
+adf.test(Femin_Edomex_st)
+kpss.test(Femin_Edomex_st)
+```
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Primeras Diferencias de la Serie
+
+Femin_Edomex_dif1 <- diff(Femin_Edomex_st)
+
+### Grafica de la Serie en Primeras Diferencias
+
+autoplot(Femin_Edomex_dif1)+
+  geom_line(color="seagreen3",lwd=0.8)+
+  labs(title = "Primeras Diferencias",
+       subtitle = "Serie: Feminicidios en el Estado de México",
+       x="Tiempo", y="Yt",
+       caption = "Fuente: Elaboración propia") +
+  theme_economist_white(gray_bg = FALSE)
+
+### Estadísticos de Raíz Unitaria de la Serie en Primeras Diferencias
+
+adf.test(Femin_Edomex_dif1)
+kpss.test(Femin_Edomex_dif1)
+```
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Grafico de Autocorrelación de la Serie en Primeras Diferencias
+
+ggAcf(Femin_Edomex_dif1, lag.max = 85, lwd=1, color="orangered") +
+  labs(title = "Grafico de Autocorrelación",
+       subtitle = "Feminicidios en Edomex, primeras diferencias",
+       caption = "Fuente: Elaboración propia") +
+  theme_economist_white(gray_bg = FALSE)
+
+### Grafico de Autocorrelación Parcial de la Serie en Primeras Diferencias
+
+ggPacf(Femin_Edomex_dif1, lag.max = 85,lwd=1, color="orangered") + 
+  labs(title = "Grafico de Autocorrelación Parcial",
+       subtitle = "Feminicidios en Edomex, primeras diferencias",
+       caption = "Fuente: Elaboración propia") +
+  theme_economist_white(gray_bg = FALSE)
+```
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Ecuaciones ARIMA 
+
+arima412 <- arima(Femin_Edomex_st, order=c(4,1,2))
+arima312 <- arima(Femin_Edomex_st, order=c(3,1,2))
+arima212 <- arima(Femin_Edomex_st, order=c(2,1,2))
+arima411 <- arima(Femin_Edomex_st, order=c(4,1,1))
+arima311 <- arima(Femin_Edomex_st, order=c(3,1,1))
+arima211 <- arima(Femin_Edomex_st, order=c(2,1,1))
+arima011 <- arima(Femin_Edomex_st, order=c(0,1,1))
+
+### Residuos de Ecuaciones ARIMA
+
+residuos412 <- arima412$residuals
+residuos312 <- arima312$residuals
+residuos212 <- arima212$residuals
+residuos411 <- arima411$residuals
+residuos311 <- arima311$residuals
+residuos211 <- arima211$residuals
+residuos011 <- arima011$residuals
+```
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Tabla con las ecuaciones ARIMA de Media Móvil 2
+
+library(rmarkdown)
+library(tinytex)
+library(stargazer)
+library(sandwich)
+
+stargazer(arima412, arima312, arima212,
+          title="Comparación de Ecuaciones ARIMA con MA(2)",
+          type = "latex",
+          float = TRUE,
+          report = "vcs*",
+          no.space = TRUE,
+          header=FALSE,
+          model.names=TRUE,
+          table.placement = "H",
+          single.row = TRUE,
+          font.size = "small",
+          intercept.bottom = F,
+          column.labels = c("ARIMA(4,1,2)","ARIMA(3,1,2)","ARIMA(2,1,2)"),
+          column.separate = c(1,1,1),
+          digits = 3,
+          t.auto = F,
+          p.auto = F,
+          notes.align = "r",
+          notes = c("Datos: Feminicidios en el Estado de México"),
+          notes.append = TRUE
+          )
+```
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Tabla con las ecuaciones ARIMA de Media Móvil 1
+
+stargazer(arima411, arima311, arima211, arima011,
+          title="Comparación de Ecuaciones ARIMA con MA(1)",
+          type = "latex",
+          float = TRUE,
+          report = "vcs*",
+          no.space = TRUE,
+          header=FALSE,
+          model.names=TRUE,
+          table.placement = "H",
+          single.row = TRUE,
+          font.size = "small",
+          intercept.bottom = F,
+          column.labels = c("ARIMA(4,1,1)","ARIMA(3,1,1)","ARIMA(2,1,1)","ARIMA(0,1,1)"),
+          column.separate = c(1,1,1,1),
+          digits = 3,
+          t.auto = F,
+          p.auto = F,
+          notes.align = "r",
+          notes = c("Datos: Feminicidios en el Estado de México", "auto.arima:
+                    ARIMA(0,1,1)"),
+          notes.append = TRUE
+          )
+```
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Pruebas de Independencia para los Residuos 
+
+Residuos <- c("ARIMA(4,1,2)", "ARIMA(3,1,2)", "ARIMA(2,1,2)", "ARIMA(4,1,1)", 
+              "ARIMA(3,1,1)", "ARIMA(2,1,1)","ARIMA(0,1,1)")
+
+X.squared <- c(Box.test(residuos412)$statistic,
+               Box.test(residuos312)$statistic,
+               Box.test(residuos212)$statistic,
+               Box.test(residuos411)$statistic,
+               Box.test(residuos311)$statistic,
+               Box.test(residuos211)$statistic,
+               Box.test(residuos011)$statistic)
+
+p.value <- c(Box.test(residuos412)$p.value,
+             Box.test(residuos312)$p.value,
+             Box.test(residuos212)$p.value,
+             Box.test(residuos411)$p.value,
+             Box.test(residuos311)$p.value,
+             Box.test(residuos211)$p.value,
+             Box.test(residuos011)$p.value)
+
+BoxPierceTest <- data.frame(Residuos, X.squared, p.value)
+colnames(BoxPierceTest) <- c("Residuos de ecuación:", "Chi-squared", "p-value")
+
+### Tabla con las pruebas de Independencia para los Residuos
+
+kable(BoxPierceTest, booktabs = TRUE, format = "latex", 
+      caption="Prueba de Independencia Box-Pierce",
+      row.names = FALSE, align = "c") %>%
+  kable_styling(latex_options = c("striped","HOLD_position","condensed"),
+                position = "center",
+                stripe_color = "orange!6") %>%
+  row_spec(row = 0, bold = TRUE, align = "c", font_size = 12)
+```
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Pruebas de Normalidad para los Residuos
+
+X_squared <- c(jarque.bera.test(residuos412)$statistic,
+               jarque.bera.test(residuos312)$statistic,
+               jarque.bera.test(residuos212)$statistic,
+               jarque.bera.test(residuos411)$statistic,
+               jarque.bera.test(residuos311)$statistic,
+               jarque.bera.test(residuos211)$statistic,
+               jarque.bera.test(residuos011)$statistic)
+
+p_value <- c(jarque.bera.test(residuos412)$p.value,
+             jarque.bera.test(residuos312)$p.value,
+             jarque.bera.test(residuos212)$p.value,
+             jarque.bera.test(residuos411)$p.value,
+             jarque.bera.test(residuos311)$p.value,
+             jarque.bera.test(residuos211)$p.value,
+             jarque.bera.test(residuos011)$p.value)
+
+JarqueBeraTest <- data.frame(Residuos, X_squared, p_value)
+colnames(JarqueBeraTest) <- c("Residuos de ecuación:", "Chi-squared", "p-value")
+
+### Tabla con las pruebas de Normalidad para los Residuos
+
+kable(JarqueBeraTest, booktabs = TRUE, format = "latex", 
+      caption="Prueba de Normalidad Jarque-Bera",
+      row.names = FALSE, align = "c") %>%
+  kable_styling(latex_options = c("striped","HOLD_position","condensed"),
+                position = "center",
+                stripe_color = "green!6") %>%
+  row_spec(row = 0, bold = TRUE, align = "c", font_size = 12)
+```
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Tabla con las ecuaciones ARIMA de mejor ajuste
+
+stargazer(arima211, arima011,
+          title="Mejores Ecuaciones ARIMA",
+          type = "latex",
+          float = TRUE,
+          report = "vcs*",
+          no.space = TRUE,
+          header=FALSE,
+          model.names=TRUE,
+          table.placement = "H",
+          single.row = TRUE,
+          font.size = "small",
+          intercept.bottom = F,
+          column.labels = c("ARIMA(2,1,1)","auto.arima: ARIMA(0,1,1)"),
+          column.separate = c(1,1),
+          digits = 3,
+          t.auto = F,
+          p.auto = F,
+          notes.align = "r",
+          notes = c("Datos: Feminicidios en el Estado de México"),
+          notes.append = TRUE
+          )
+```
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Pronósticos de la ecuación ARIMA(0,1,1)
+
+pronos.arima011 <- forecast(arima011, h=3)
+
+pronosticos011 <- data.frame(round(pronos.arima011$mean, digits = 0),
+                             round(pronos.arima011$lower[,1], digits = 0),
+                             round(pronos.arima011$upper[,1], digits = 0),
+                             round(pronos.arima011$lower[,2], digits = 0),
+                             round(pronos.arima011$upper[,2], digits = 0))
+colnames(pronosticos011) <- c("Pronóstico","Inf 80%", "Sup 80%", 
+                              "Inf 95%", "Sup 95%")
+rownames(pronosticos011) <- c("Abril 2022","Mayo 2022","Junio 2022")
+
+### Tabla con los pronósticos de la ecuación ARIMA(0,1,1)
+
+kable(pronosticos011, booktabs = TRUE, format = "latex", 
+      caption="Pronosticos de ARIMA(0,1,1)",
+      row.names = TRUE, align = "c") %>%
+  kable_styling(latex_options = c("striped","HOLD_position","condensed"),
+                position = "center",
+                stripe_color = "blue!6") %>%
+  row_spec(row = 0, bold = TRUE, align = "c", font_size = 12)
+
+### Grafica de los pronósticos de la ecuación ARIMA(0,1,1)
+
+autoplot(pronos.arima011)+
+  labs(title = "Pronosticos de ARIMA(0,1,1)",
+       subtitle = "Feminicidios en el Estado de México",
+       x="Tiempo", y="Feminicidios",
+       caption = "Fuente: Elaboración Propia")+
+  theme_economist_white(gray_bg = FALSE)
+```
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Pronósticos de la ecuación ARIMA(2,1,1) con Horizonte de 3 observaciones
+
+pronos.arima211 <- forecast(arima211, h=3)
+
+pronosticos211 <- data.frame(round(pronos.arima211$mean, digits = 0),
+                             round(pronos.arima211$lower[,1], digits = 0),
+                             round(pronos.arima211$upper[,1], digits = 0),
+                             round(pronos.arima211$lower[,2], digits = 0),
+                             round(pronos.arima211$upper[,2], digits = 0))
+colnames(pronosticos211) <- c("Pronóstico","Inf 80%", "Sup 80%", 
+                              "Inf 95%", "Sup 95%")
+rownames(pronosticos211) <- c("Abril 2022","Mayo 2022","Junio 2022")
+
+### Tabla con los pronósticos de la ecuación ARIMA(2,1,1) con h=3
+
+kable(pronosticos211, booktabs = TRUE, format = "latex", 
+      caption="Pronosticos de ARIMA(2,1,1)",
+      row.names = TRUE, align = "c") %>%
+  kable_styling(latex_options = c("striped","HOLD_position","condensed"),
+                position = "center",
+                stripe_color = "blue!6") %>%
+  row_spec(row = 0, bold = TRUE, align = "c", font_size = 12)
+
+### Grafica de los pronósticos de la ecuación ARIMA(2,1,1) con h=3
+
+autoplot(pronos.arima211)+
+  labs(title = "Pronosticos de ARIMA(2,1,1)",
+       subtitle = "Feminicidios en el Estado de México",
+       x="Tiempo", y="Feminicidios",
+       caption = "Fuente: Elaboración Propia")+
+  theme_economist_white(gray_bg = FALSE)
+```
+
+```{r echo=TRUE, eval=FALSE, message=FALSE, warning=FALSE}
+### Pronósticos de la ecuación ARIMA(2,1,1) con Horizonte de 9 observaciones
+
+pronos.arima211.9 <- forecast(arima211, h=9)
+
+pronosticos211.9 <- data.frame(round(pronos.arima211.9$mean, digits = 0),
+                               round(pronos.arima211.9$lower[,1], digits = 0),
+                               round(pronos.arima211.9$upper[,1], digits = 0),
+                               round(pronos.arima211.9$lower[,2], digits = 0),
+                               round(pronos.arima211.9$upper[,2], digits = 0))
+colnames(pronosticos211.9) <- c("Pronóstico","Inf 80%", "Sup 80%", 
+                                "Inf 95%", "Sup 95%")
+rownames(pronosticos211.9) <- c("Abril 2022","Mayo 2022","Junio 2022","Julio 2022",
+                                "Agosto 2022","Septiembre 2022","Octubre 2022",
+                                "Noviembre 2022","Diciembre 2022")
+
+### Tabla con los pronósticos de la ecuación ARIMA(2,1,1) con h=9
+
+kable(pronosticos211.9, booktabs = TRUE, format = "latex", 
+      caption="Pronosticos de ARIMA(2,1,1)",
+      row.names = TRUE, align = "c") %>%
+  kable_styling(latex_options = c("striped","HOLD_position","condensed"),
+                position = "center",
+                stripe_color = "blue!6") %>%
+  row_spec(row = 0, bold = TRUE, align = "c", font_size = 12)
+
+### Grafica de los pronósticos de la ecuación ARIMA(2,1,1) con h=9
+
+autoplot(pronos.arima211.9)+
+  labs(title = "Pronosticos de ARIMA(2,1,1)",
+       subtitle = "Feminicidios en el Estado de México",
+       x="Tiempo", y="Feminicidios",
+       caption = "Fuente: Elaboración Propia")+
+  theme_economist_white(gray_bg = FALSE)
+```

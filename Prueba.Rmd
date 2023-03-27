@@ -1,0 +1,531 @@
+---
+title: |
+  ![](unilogo.png){width=6.5in}  
+  Índice Dow Jones
+author: "Marco Garcia"
+date: "1 de Enero de 2023"
+output:
+  pdf_document: default
+subtitle: Ajuste de la Distribución GED a los Rendimientos
+fontsize: 12pt
+geometry: left=2cm,right=2cm,top=2.5cm,bottom=2cm
+lang: es-MX
+toc: yes
+toc_depth: 2
+lof: yes
+lot: yes
+number_sections: yes
+linkcolor: blue
+urlcolor: blue
+latex_engine: lualatex
+highlight: espresso
+bibliography: referencias.bib
+csl: apa.csl
+link-citations: yes
+header-includes:
+- \usepackage{tikz}
+- \usepackage{tcolorbox}
+- \usepackage{float}
+- \floatplacement{figure}{H}
+- \usepackage{graphicx}
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead{}
+- \fancyhead[C]{\leftmark}
+- \fancyhead[L]{\includegraphics[width=1.8cm]{rstudiologo.png}}
+- \fancyhead[R]{\includegraphics[width=2cm]{pythonlogo.jpg}}
+- \fancyfoot{}
+- \fancyfoot[R]{\thepage}
+- \fancyfoot[L]{\rightmark}
+- \renewcommand{\headrulewidth}{1.5pt}
+- \renewcommand{\footrulewidth}{0.5 pt}
+---
+
+\pagebreak
+
+\setcounter{page}{1}
+
+# Value at Risk(VaR) of a Heavy-Tailed Distribution
+En realidad, los rendimientos de los precios de mercado pueden no seguir una distribución normal, sino una distribución de cola pesada.
+
+Una forma comúnmente utilizada para la distribución de colas pesadas es la **Distribución de Errores Generalizados (GED)**. La funcion de densidad de probabilidad de la distribución ***GED*** con el parámetro $\xi$ esta dada por:
+
+\Large
+
+$$f(z)=\frac{\xi e^{-\frac{1}{2}|\frac{z}{\lambda}|^\xi}}{\lambda 2^{\left(1+\frac{1}{\xi}\right)} \Gamma(\frac{1}{\xi})}  ~;~ -\infty<z<\infty$$
+\normalsize
+
+$$\lambda=\left( \frac{2^{\left(-\frac{2}{\xi} \right)} \Gamma(\frac{1}{\xi})}{\Gamma(\frac{3}{\xi})} \right)^{\frac{1}{2}}$$
+Su densidad se ve asi:
+
+```{r echo=TRUE, warning=FALSE, message=FALSE}
+GED <- function(z,E){
+  
+  lam <- ((2^(-2/E))*gamma(1/E)/gamma(3/E))^(1/2)
+  (E*exp((-1/2)*abs(z/lam)^E))/(lam*(2^(1+1/E))*gamma(1/E))
+}
+
+z <- seq(-4, 4, by=0.01)
+
+y1 <- GED(z,1.2)
+y2 <- GED(z,1.6)
+y4 <- dnorm(z)
+```
+
+```{r echo=TRUE, warning=FALSE, message=FALSE, fig.align='center', fig.cap='La forma de la función de densidad GED.', fig.width=6.5, fig.height=4.5}
+library(latex2exp)
+plot(z, y1, type = "l", col = "red2", lwd = 2, family = "serif",
+     main = "Distribución GED", cex.main = 1.5,
+     xlab = "z",ylab = "f(z)", cex.lab = 1.2, cex.axis = 0.8)
+grid(nx = NULL, ny = NULL, lty = 2, col = "gray", lwd = 0.1)
+lines(z,y2, lty=1, lwd=2, col="blue")
+lines(z,y4, lty=1, lwd=2, col="green3")
+legend("topright",c(TeX("$\\xi=1.2$"),TeX("$\\xi=1.6$"),"Z~N(0,1)"),
+       lty = c(1,1,1),lwd = c(2,2,2),col = c("red3","blue","green3"))
+```
+
+La clave para simular el VaR es generar variables aleatorias siguiendo la distribución deseada. Aplicaremos el método de rechazo, el algoritmo es el siguiente:
+
+PASO 1: Generar $Y$ ~ $Exp~(1)$.
+
+PASO 2: Generar $U$ ~ $U~(0,1)$.
+
+PASO 3: Si $U \leq 2f(y)e^{y}/a$, entonces $Z=Y$; de lo contrario, ir al PASO 1.
+
+PASO 4: Generar $V$ ~ $U~(0,1)$. Si $V<-1/2$, entonces $Z=-Y$.
+
+PASO 5: Repetir del PASO 1 al PASO 4 $n$ veces para obtener $\{ Z_1,Z_2,...,Z_n \}$.
+
+PASO 6: Establecer $R_i=\mu+\sigma Z_i$.
+
+PASO 7: Ordenar los retornos en orden asendente $\{ R_1^*,R_2^*,...,R_n^* \}$.
+
+PASO 8: Establecer $VaR=-R_k^*$ donde $k=int(\alpha \times n)$.
+
+**Observaciones:**
+
+1. En el PASO 3 $a$ es una constante no menor que $max_y\{ 2f(y)e^{y} \}$.
+2. Como la distribución exponencial se define con un dominio de números reales positivos, los PASOS 1 a 3 del algoritmo generan una distribución **GED** positiva. El paso 4 convierte la variable aleatoria de **GED** positiva en una variable aleatoria de GED con un dominio tanto en los numeros reales positivos como en los negativos.
+
+# Caso de estudio: VaR del Dow Jones
+
+Demostramos el uso del GED-VaR considerando los precios de cierre diarios de 10 años del índice industrial Dow Jones (DJI) en el período del 8 de agosto de 1995 al 7 de agosto de 2004. Los datos constan de $2,265$ precios. Los precios se convierten en $2,264$ rendimientos diarios mediante la fórmula:
+$$R_t=\frac{S_t-S_{t-1}}{S_{t-1}}$$
+La media muestral y la desviación estándar de los rendimientos son $0.04\%$ y $1.16\%$ en una escala diaria, respectivamente. El VaR normal al 95% y 99% de la muestra es $1.87\%$ y $2.66\%$, respectivamente.
+
+Para aplicar el algoritmo, utilizaremos los Rendimientos Estandarizados por la media muestral y la desviación estándar:
+$$SR_t=\frac{R_t-0.04\%}{1.16\%}$$
+Donde $SR_t$ denota el rendimiento estandarizado en el tiempo $t$.
+Conjeturamos que $SR_t$ ~ $GED(\xi)$ idéntica e independientemente. El parametro $\xi$ es estimado de los Rendimientos Estandarizados usando la **Estimación por Maxima Verosimilitud**.
+
+Los datos comprenden $2,264$ tasas de rendimiento diarias. Estos datos se transforman en rendimientos estandarizados utilizando la media muestral y la desviación estándar.
+
+La funcion de verosimilitud es:
+
+\Large
+
+$$ L(\xi)=\prod_{i=1}^{2,264}{\frac{\xi e^{-\frac{1}{2}|\frac{Z_i}{\lambda}|^\xi}}{\lambda 2^{\left(1+\frac{1}{\xi}\right)} \Gamma(\frac{1}{\xi})}} $$
+\normalsize
+
+$$\lambda=\left( \frac{2^{-\frac{2}{\xi}} \Gamma(\frac{1}{\xi})}{\Gamma(\frac{3}{\xi})} \right)^{\frac{1}{2}}$$
+donde $Z_1,Z_2,...,Z_{2,264}$ son los rendimientos estandarizados.
+
+Aplicando logaritmo natural, obtenemos:
+$$ ln(L(\xi))=\sum_{i=1}^{2,264}{\left[ln(\xi)-\frac{1}{2} \left|\frac{z_i}{\lambda}\right|^\xi~-ln(\lambda)-\left(1+\frac{1}{\xi}\right)ln(2)-ln\left(\Gamma\left(\frac{1}{\xi}\right)\right)\right]} $$
+En lugar de derivar teóricamente la estimación de máxima verosimilitud, buscamos el punto máximo de la función de verosimilitud con un método numérico.
+Aplicando el algoritmo obtenemos una estimación de $\xi=1.21$, que se va a utilizar para generar GED-VaR.
+
+El valor de $a$ se puede deducir de la gráfica de $2f(y)e^y$, donde $f(y)$ es la funcion de densidad de probabilidad $GED(1.21)$. El valor máximo de la función está acotado por encima de $1.2$, por lo que establecemos $a=1.2$.
+
+\newpage
+
+## Lectura de los Datos
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(readxl)
+
+Datos <-  read_excel("C:\\Users\\marco\\Downloads\\Datos_Dow_Jones.xlsx", 
+                     col_names = T, sheet = 1)
+
+#### CALCULANDO LOS RENDIMIENTOS Y LOS RENDIMIENTOS ESTANDARIZADOS ####
+Daily_Returns <- c()
+
+for (m in 2:length(Datos$Close)) {
+  Daily_Returns[m] = (Datos$Close[m]/Datos$Close[m-1])-1
+}
+
+Datos$Daily_Returns <- Daily_Returns
+
+mu <- mean(na.omit(Datos$Daily_Returns))
+sigma <- sd(na.omit(Datos$Daily_Returns))
+
+Datos$Returns_Est <- (Datos$Daily_Returns-mu)/sigma
+```
+
+Table: Precios y Rendimientos del Dow Jones
+
+|    |Date        | Close   | Daily Returns|Standarized Returns|
+|:--:|:----------:|:-------:|:------------:|:----------:|
+|1   |Aug 09, 1995| 4671.49 | NA           |NA          |
+|2   |Aug 10, 1995| 4643.66 | -0.0059574   |-0.5466055  |
+|3   |Aug 11, 1995| 4618.30 | -0.0054612   |-0.5039125  |
+|4   |Aug 14, 1995| 4659.86 | 0.0089990    |0.7402275   |
+|5   |Aug 15, 1995| 4640.84 | -0.0040817   |-0.3852182  |
+|6   |Aug 16, 1995| 4639.08 | -0.0003792   |-0.0666652  |
+|7   |Aug 17, 1995| 4630.63 | -0.0018215   |-0.1907541  |
+|8   |Aug 18, 1995| 4617.60 | -0.0028139   |-0.2761383  |
+|9   |Aug 21, 1995| 4614.78 | -0.0006107   |-0.0865803  |
+|10  |Aug 22, 1995| 4620.42 | 0.0012222    |0.0711177   |
+|$\vdots$|$\vdots$    |$\vdots$ |   $\vdots$   |   $\vdots$ |
+|    |            |         |              |            |
+|2256|Jul 26, 2004| 9961.92 | -0.0000301   |-0.0366266  |
+|2257|Jul 27, 2004| 10085.14| 0.0123691    |1.0301891   |
+|2258|Jul 28, 2004| 10117.07| 0.0031660    |0.2383675   |
+|2259|Jul 29, 2004| 10129.24| 0.0012029    |0.0694621   |
+|2260|Jul 30, 2004| 10139.71| 0.0010336    |0.0548977   |
+|2261|Aug 02, 2004| 10179.16| 0.0038906    |0.3007113   |
+|2262|Aug 03, 2004| 10120.24| -0.0057883   |-0.5320548  |
+|2263|Aug 04, 2004| 10126.51| 0.0006196    |0.0192698   |
+|2264|Aug 05, 2004| 9963.03 |-0.0161438    |-1.4230287  |
+|2265|Aug 06, 2004| 9815.33 |-0.0148248    |-1.3095469  |
+
+## Grafica de los Precios de Cierre del Dow Jones
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(quantmod)
+
+getSymbols("^DJI", src="yahoo", from="1995-08-09", to="2004-08-07")
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, fig.align='center', fig.cap='Linea de precios de cierre diarios del Dow Jones', fig.width=6.5, fig.height=3.6}
+lineChart(DJI, theme = chartTheme("white"), name = "Dow Jones")
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, fig.align='center', fig.cap='Velas Japonesas con precios diarios del Dow Jones', fig.width=6.5, fig.height=3.6}
+chartSeries(DJI, theme = chartTheme("white"), name = "Dow Jones")
+```
+
+## VaR del Dow Jones con Distribución Normal
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+#### Media ####
+mu*100
+
+#### Desviación Estandar ####
+sigma*100
+
+#### VaR 95% ####
+VaR_95 <- -(mu-qnorm(0.95)*sigma)
+VaR_95*100
+
+#### VaR 99% ####
+VaR_99 <- -(mu-qnorm(0.99)*sigma)
+VaR_99*100
+```
+
+## QQ-plot con Distribution Normal de los Rendimientos
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+x <- sort(na.omit(Daily_Returns))
+i <- c(1:length(na.omit(Daily_Returns)))
+p <- (i-0.5)/length(na.omit(Daily_Returns))
+q.n <- qnorm(p, mean = 0, sd = 1)
+reg.n <- lm(q.n ~ x)
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, fig.align='center', fig.cap='QQ Plot de cuantiles normales frente a rendimientos diarios de Dow Jones', fig.width=7, fig.height=5.5}
+plot(x, q.n, pch=3, cex = 0.6, xlim=c(-0.08,0.08) ,ylim=c(-8,8), family = "serif",
+     xlab="Cuantiles de los rendimientos del Dow Jones",
+     ylab="Cuantiles de la dist. Normal",
+     main="Normal distribution Q-Q Plot", cex.main = 1.5)
+grid(nx = NULL, ny = NULL, lty = 2, col = "gray", lwd = 0.1)
+abline(reg.n, col="orangered2", lwd=2, lty=4)
+lines(x, q.n, type="p", pch=3, cex = 0.6, xlim=c(-0.08,0.08) ,ylim=c(-8,8))
+```
+
+# Ajuste a la Distribución GED
+## Estimador de Maxima Verosimilitud del parametro de la distribución GED
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+# Funcion de Verosimilitud
+
+loglikelihood <- function(Z,xi) {
+  L <- 0
+  lambda <- sqrt(2^(-2/xi)*gamma(1/xi)/gamma(3/xi))
+  
+  for (l in 1:length(Z)) {
+    
+    temp1 <- log(xi)-abs(Z[l]/lambda)^xi/2
+    temp2 <- log(lambda)+log(2)*(1+1/xi)+lgamma(1/xi)
+    L <- L + temp1 - temp2
+  }
+  L
+}
+
+Z <- na.omit(Datos$Returns_Est)
+a <- 0
+XI <- (50:250)/100
+
+for (h in 1:length(XI)) {
+  
+  a[h] <- loglikelihood(Z,XI[h])
+}
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, fig.align='center', fig.cap='Determinamos gráficamente el máximo de la Log-Verosimilotud.', fig.width=6.5, fig.height=4.5}
+library(latex2exp)
+plot(XI,a, type = "l", lwd = 2, col = "darkorange", family = "serif",
+     main = "Funcion de Log-Verosimilitud", cex.main = 1.5,
+     ylab = "Log likelihood", 
+     xlab = TeX("$\\ xi $"), cex.lab = 1.2, cex.axis = 0.8)
+grid(nx = NULL, ny = NULL, lty = 2, col = "gray", lwd = 0.1)
+lines(XI,a, type = "l", lwd = 2, col = "darkorange")
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+Estimador <- XI[which(max(a)==a)]
+Estimador
+```
+
+## QQ-plot con Distribution GED de los Rendimientos
+```{r echo=TRUE, message=FALSE, warning=FALSE}
+library(fGarch)
+
+lamda <- ((2^(-2/Estimador))*gamma(1/Estimador)/gamma(3/Estimador))^(1/2)
+alpha <- (2^(1/Estimador))*lamda
+
+x <- sort(na.omit(Daily_Returns))
+i <- c(1:length(na.omit(Daily_Returns)))
+p <- (i-0.5)/length(na.omit(Daily_Returns))
+q <- qged(p, mean = 0, sd = alpha, nu = Estimador)
+reg <- lm(q ~ x)
+```
+
+```{r echo=TRUE, message=FALSE, warning=FALSE, fig.align='center', fig.cap='QQ Plot de los cuantiles GED(1.21) frente a los rendimientos del Dow Jones.', fig.width=7, fig.height=6}
+plot(x, q, pch=3, cex = 0.6, xlim=c(-0.08,0.08) ,ylim=c(-8,8), family = "serif",
+     xlab="Cuantiles de los rendimientos del Dow Jones",
+     ylab="Cuantiles de la dist. GED(1.21)",
+     main="GED distribution Q-Q Plot", cex.main = 1.5)
+grid(nx = NULL, ny = NULL, lty = 2, col = "gray", lwd = 0.1)
+abline(reg, col="red2", lwd=2, lty=4)
+lines(x, q, type="p", pch=3, cex = 0.6, xlim=c(-0.08,0.08) ,ylim=c(-8,8))
+```
+
+\newpage
+
+## Comparación de los Graficos Q-Q
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.width=4.8, fig.height=4.3}
+plot(x, q.n, pch=3, cex = 0.6, xlim=c(-0.08,0.08) ,ylim=c(-8,8), family = "serif",
+     xlab="Cuantiles de los rendimientos del Dow Jones",
+     ylab="Cuantiles de la dist. Normal",
+     main="Normal distribution Q-Q Plot")
+grid(nx = NULL, ny = NULL, lty = 2, col = "gray", lwd = 0.1)
+abline(reg.n, col="orangered2", lwd=2, lty=4)
+lines(x, q.n, type="p", pch=3, cex = 0.6, xlim=c(-0.08,0.08) ,ylim=c(-8,8))
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.width=4.8, fig.height=4.3}
+
+plot(x, q, pch=3, cex = 0.6, xlim=c(-0.08,0.08) ,ylim=c(-8,8), family = "serif", 
+     xlab="Cuantiles de los rendimientos del Dow Jones",
+     ylab="Cuantiles de la dist. GED(1.21)",
+     main="GED distribution Q-Q Plot")
+grid(nx = NULL, ny = NULL, lty = 2, col = "gray", lwd = 0.1)
+abline(reg, col="red2", lwd=2, lty=4)
+lines(x, q, type="p", pch=3, cex = 0.6, xlim=c(-0.08,0.08) ,ylim=c(-8,8))
+```
+
+\newpage
+
+## Encontrando el valor de a 
+```{r echo=TRUE, warning=FALSE, message=FALSE}
+##### FUNCION 2*f(y)*exp(y) donde Y~GED(E=1.21)#####
+GEDy <- function(y,Xi){
+  
+  lamb <- ((2^(-2/Xi))*gamma(1/Xi)/gamma(3/Xi))^(1/2)
+  2*((Xi*exp((-1/2)*abs(y/lamb)^Xi))/(lamb*(2^(1+1/Xi))*gamma(1/Xi)))*exp(y)
+}
+
+y <- seq(-4, 4, by=0.01)
+fy <- GEDy(y,1.21)
+```
+
+```{r echo=TRUE, warning=FALSE, message=FALSE, fig.align='center', fig.cap='Determinamos gráficamente el máximo de 2f(y)exp(y).', fig.width=6.5, fig.height=4}
+plot(y, fy, type = "l", col = "darkgoldenrod3", lwd = 2, family = "serif",
+     main = TeX("Grafica de $ 2f(y)e^y $, con Y~GED(1.21)"), cex.main = 1.3,
+     xlab = "y",ylab = "f(y)", cex.lab = 1.2, cex.axis = 0.8)
+grid(nx = NULL, ny = NULL, lty = 2, col = "gray", lwd = 0.1)
+```
+
+```{r echo=TRUE, warning=FALSE, message=FALSE}
+##### max{2*f(y)*exp(y)}
+max(fy)
+```
+
+# Simulación del GED VaR
+```{r echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
+                               ####### GED VaR ########
+
+### Función de Densidad de Probabilidad positiva GED(v)
+funGED <- function(x ,v){
+  lamda <- ((2^(-2/v)*gamma(1/v))/gamma(3/v))^0.5
+  positiveGED <- 2*(v*exp(-0.5*(x/lamda)^v))/(gamma(1/v)*lamda*2^(1+1/v)) }
+
+funEXP <- function(x){EXP <- exp(-x)}
+
+N <- 10000
+VaR95 <- c(rep(0,1000))
+VaR99 <- c(rep(0,1000))
+
+####### Programa para generar la GED utilizando el método de rechazo #######
+
+# La Densidad propuesta es exp(1)
+
+for (j in 1:1000) {
+  # Primero generamos una distribución GED positiva
+  
+  N <- 10000    #cantidad de números aleatorios que queremos generar
+  e <- c(rep(0,N))
+  
+  for (i in 1:N) {
+    u2 <- 1 #inicializando u2 para el PASO 2
+    Y <- 2
+   
+    while (u2 > funGED(Y,1.21)/(funEXP(Y)*1.2)) {#comprobar condiciones para el PASO 3
+      u1 <- runif(1)  #PASO 1
+      Y <- -1*log(u1) #PASO 1: Generar la exp(1)
+      u2 <- runif(1)  #PASO 2
+      e[i] <- Y       #PASO 3
+    }
+  }
+  
+  # Luego generamos GED asignando la mitad del GED positivo con signo negativo
+  
+  for (k in 1:N) {
+    u3 <- runif(1)
+    
+    if(u3 < 0.5){
+      e[k] <- -1*e[k]  #PASO 4
+    }
+  }
+  
+  R <- (0.04+1.16*e)/100    #PASO 6
+  sR <- sort(R)             #PASO 7
+  VaR95[j] <- -1*sR[N*0.05] #PASO 8 para el VaR al 95%
+  VaR99[j] <- -1*sR[N*0.01] #PASO 8 para el VaR al 99%
+}
+
+# Repetimos todo el algoritmo 1,000 veces para obtener el IC, es lo que hace el for 
+
+sVaR95 <- sort(VaR95)
+sVaR99 <- sort(VaR99)
+
+E95VaR <- mean(VaR95)
+UCIVaR95 <- sVaR95[1000*0.975]  #Intervalo de Confianza superior al 95%
+LCIVaR95 <- sVaR95[1000*0.025]  #Intervalo de Confianza inferior al 95%
+
+E99VaR <- mean(VaR99)
+UCIVaR99 <- sVaR99[1000*0.975]  #Intervalo de Confianza superior al 99%
+LCIVaR99 <- sVaR99[1000*0.025]  #Intervalo de Confianza inferior al 99%
+```
+
+## Elementos del GED-VaR al 95\%
+```{r echo=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
+sVaR95
+```
+
+## Elementos del GED-VaR al 99\%
+```{r echo=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
+sVaR99
+```
+
+```{r echo=TRUE, warning=FALSE, message=FALSE, eval=FALSE}
+##### Mostramos los Valores ####
+E95VaR
+UCIVaR95
+LCIVaR95
+
+E99VaR
+UCIVaR99
+LCIVaR99
+```
+
+El programa estima el VaR al $95\%$ y al $99\%$, generando 10,000 variables aleatorias GED(1.21). Para los intervalos de confianza, se repite el proceso 1000 veces para obtener 1000 estimaciones del VaR. Después de ordenar los VaR simulados en orden ascendente, el intervalo de confianza (IC) de dos colas al $95\%$ es el rango entre el 25vo VaR y el 975vo VaR.
+
+Para comprobar el rendimiento del GED-VaR, se utiliza el gráfico QQ, se ve que las desviaciones de la línea recta se han reducido sustancialmente. Vemos que GED(1.21) es apropiado para modelar la muestra de rendimientos de Dow Jones. El promedio del VaR al $95\%$ y el VaR al $99\%$ de las 1000 simulaciones son $1.87\%$ y $3.02\%$, respectivamente. Por lo tanto, el GED-VaR al $95\%$ y el VaR normal al $95\%$ dan valores similares mientras que el GED-VaR al $99\%$ es un $10\%$ más que el VaR normal al $99\%$.
+
+Estos hallazgos pueden ser útiles para un administrador de riesgos. Dado que el VaR normal se usa comúnmente en la industria financiera, es esencial que un administrador de riesgos comprenda la limitación del VaR normal. El fundamento de este estudio empírico es que el VaR normal es una buena estimación de las pérdidas potenciales de una portafolio en escenarios "normales, no extremos". Sin embargo, se subestiman las pérdidas potenciales cuando ocurren "eventos extremos", especialmente para aquellos que ocurren con una probabilidad inferior al $1\%$. Para medir el VaR con un nivel de confianza más alto, por ejemplo, el VaR al $99\%$, el administrador de riesgos puede considerar el GED-VaR. 
+
+La formula para la prueba Anderson Darling[@klugman2012loss] es la siguiente:
+
+\begin{multline*}
+    A^2 = -n+n \Bigg( \underbrace{-ln[1-F^*(x_1)]}_{i=0} +\sum_{i=1}^{n-1}{[1-F_n(x_i)]^2\{ln[1-F^*(x_i)]-ln[1-F^*(x_{i+1})]\}} \\ + \sum_{i=1}^{n-1}{F_n(x_i)^2[ln~F^*(x_{i+1})-ln~F^*(x_i)]}~ \underbrace{-ln~F^*(x_n)}_{i=n} \Bigg)
+\end{multline*}
+
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!50!black,title=Prueba Anderson-Darling]
+\begin{multline*}
+    A^2 = -n+n \Bigg( \underbrace{-ln[1-F^*(x_1)]}_{i=0} +\sum_{i=1}^{n-1}{[1-F_n(x_i)]^2\{ln[1-F^*(x_i)]-ln[1-F^*(x_{i+1})]\}} \\ + \sum_{i=1}^{n-1}{F_n(x_i)^2[ln~F^*(x_{i+1})-ln~F^*(x_i)]}~ \underbrace{-ln~F^*(x_n)}_{i=n} \Bigg)
+\end{multline*}
+\end{tcolorbox}
+
+# Python en Rmarkdown $\chi^2$
+
+Esto es posible gracias a los lenguajes de programación `r R.version.string`[@Rprogramacion] y Python[@van1995python]. Tambien a las librerías `matplotlib`[@Hunter_2007], `seaborn`[@michael_waskom_2017_883859] de Python, y a las librerias `ggplot2`[@ggplot] y `rmarkdown`[@RMarkdown] de R.
+
+```{r, echo=TRUE, message=FALSE, warning=FALSE}
+library(reticulate)
+use_python("C:/Users/marco/AppData/Local/Programs/Python/Python311/python.exe")
+```
+
+```{python, include=TRUE}
+import matplotlib.pyplot as plt
+import numpy as np
+import seaborn as sns
+import pandas as pd
+```
+
+```{python, include=TRUE, results='hide', collapse=TRUE, fig.align='center', fig.cap='Grafico de Barras con Python.'}
+eje_x = ['Python', 'R', 'Node.js', 'PHP']
+eje_y = [50,20,35,47]
+
+plt.bar(eje_x, eje_y)
+
+plt.ylabel('Cantidad de usuarios')
+plt.xlabel('Lenguajes de programación')
+plt.title('Usuarios de lenguajes de programación')
+
+plt.show()
+```
+
+```{python, include=TRUE, results='hide', collapse=TRUE, fig.align='center', fig.cap='Otro Grafico de Barras con Python seaborn.'}
+eje_x = [4,6,8]
+eje_y = [11,7,14]
+
+sns.barplot(x=eje_x,y=eje_y)
+
+plt.title("Número de cilindros")
+plt.xlabel("Cilindros")
+plt.ylabel("Frecuencias")
+
+plt.show()
+```
+
+```{python, include=TRUE, results='hide', collapse=TRUE, fig.align='center', fig.cap='Más Graficos de Barras con Python.'}
+serie_1 = [406, 387, 442, 457, 485]
+serie_2 = [421, 453, 435, 478, 512]
+
+numero_de_grupos = len(serie_1)
+indice_barras = np.arange(numero_de_grupos)
+ancho_barras =0.35
+ 
+plt.bar(indice_barras, serie_1, width=ancho_barras, label='Hombres')
+plt.bar(indice_barras + ancho_barras, serie_2, width=ancho_barras, label='Mujeres')
+plt.legend(loc='best')
+
+plt.xticks(indice_barras + ancho_barras, ('2017', '2018', '2019', '2020','2021'))
+ 
+plt.ylabel('Numero de habitantes')
+plt.xlabel('Año')
+plt.title('Numero de habitantes por genero')
+ 
+plt.show()
+```
+
+# Referencias 

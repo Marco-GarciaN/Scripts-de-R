@@ -1,0 +1,213 @@
+---
+title: "Presentación Interactiva en R Markdown"
+subtitle: "Presentación hecha con Xaringan"
+author: "Marco Garcia"
+institute: "UAEMéx, Facultad de Economía"
+date: "20/2/2023"
+output:
+  xaringan::moon_reader:
+    css: ["default", "ki-fonts", "shinobi"]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlighLine: true
+      highlightLines: true
+      countIncrementalSlides: true 
+---
+
+```{r setup, include=FALSE}
+options(
+  htmltools.dir.version  = FALSE,
+  htmltools.preserve.raw = FALSE # needed for windows
+)
+```
+
+# Mi primera diapositiva
+- Lista
+- Lista 
+ * Lista 
+ * Lista
+  1. Lista
+  2. Lista
+  
+---
+
+# Esta es otra diapositiva
+
+## Iconos `r fontawesome::fa("r-project", fill = "steelblue")`
+
+```{r}
+fontawesome::fa("dragon", fill = "black")
+```
+
+Mas iconos en texto como el de LinkedIn `r fontawesome::fa("linkedin", fill = "darkblue")`
+
+---
+
+class: top, center
+
+#  Top Center
+
+More stuff
+
+.left[And more]
+
+.right[And right]
+
+---
+# Incremental Reveals
+
+--
+
+Next
+
+--
+
+Next
+
+--
+
+One final piece
+
+---
+
+# Two-Columns
+
+.pull-left[
+
+## Column 1
+
+- First Bullet
+
+]
+
+.pull-right[
+
+## Column 2
+
+- First Comparison
+
+]
+
+---
+
+# Code Highlight & Tables
+
+```{r, echo=T, message=FALSE, warning=FALSE}
+library(tidyverse)
+mtcars %>%
+  knitr::kable()
+```
+
+---
+
+# DT Tables
+
+```{r, out.width="100%"}
+library(DT)
+mtcars %>% DT::datatable()
+```
+
+---
+
+# Maps
+
+```{r, out.width="100%", warning=F}
+library(leaflet)
+leaflet() %>%
+  setView(lng = -99.496449, lat = 19.415037, zoom = 12) %>%
+  addProviderTiles(providers$Esri.NatGeoWorldMap)
+```
+
+---
+
+### Más Mapas
+```{r, out.width="100%", warning=F}
+leaflet() %>% addTiles() %>% setView(lat = 19.415037, lng = -99.496449, zoom = 12)
+
+```
+
+---
+# Plots
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+library(ggplot2)
+
+# Datos Truncados
+datosB <- c(27,82,115,126,155,161,243,294,340,384,457,
+          680,855,877,974,1193,1340,1884,2558,3476)
+
+x <- datosB[datosB>50]
+x <- sort(x)
+n <- length(x)
+j <- c(1:n)
+Fx_e <- j/n
+
+theta <- sum(x-50)/n
+
+Fexp <- function(x){
+  1-exp(-(x-50)/theta)
+}
+
+Fx_m <- Fexp(x)
+
+Datos_Et <- data.frame(j,x,Fx_e, Fx_m)
+colnames(Datos_Et) <- c("j","x","Fn(x)","F*(x)")
+```
+
+
+```{r, fig.align='center', fig.cap='Comparación de la distribución empírica y el modelo exponencial con truncamiento.', fig.width=6, fig.height=3.5}
+ggplot(Datos_Et, aes(x = x)) +
+  geom_step(aes(y = `Fn(x)`, colour = "Empírico"), lwd=1.1) + 
+  geom_function(fun =~ Fexp(.x), aes(colour = "Teórico"), lwd=1.1) +  
+  labs(title="Ajuste Exponencial", 
+       subtitle="Comparación Grafica de Modelos", 
+       caption = "Fuente: Loss models: from data to decisions (4.ª ed.), ed. Wiley.",
+       x="x", y="F(x)") + 
+  scale_colour_manual(values = c("black", "cyan4")) +
+  theme(legend.title = element_blank())
+```
+
+---
+# Side-by-Side
+
+.pull-left[
+
+Let's check out the monthly seasonality. 
+
+```{r}
+p <- ggplot(Datos_Et, aes(x = x)) +
+  geom_step(aes(y = `Fn(x)`, colour = "Empírico"), lwd=1.1) + 
+  geom_function(fun =~ Fexp(.x), aes(colour = "Teórico"), lwd=1.1) +  
+  labs(title="Ajuste Exponencial", 
+       subtitle="Comparación Grafica de Modelos", 
+       caption = "Fuente: Loss models: from data to decisions (4.ª ed.), ed. Wiley.",
+       x="x", y="F(x)") + 
+  scale_colour_manual(values = c("black", "cyan4")) +
+  theme(legend.title = element_blank())
+```
+
+]
+
+.pull-right[
+```{r, echo=F, out.width="100%"}
+p
+```
+
+
+]
+
+---
+
+# Lot's more!
+
+- [_"Meet xaringan"_: Allison Hill's RStudio 2019 Conf Talk](https://arm.rbind.io/slides/xaringan.html)
+
+- [_"Applying design guidelines to slides with {xaringanthemer}"_: By Katie Jolly](https://www.katiejolly.io/blog/2021-03-16/designing-slides)
+
+- [_"Presentation Ninja with xaringan"_ by Yihui Xie](https://slides.yihui.org/xaringan/#1)
+
+.center[
+  ![](https://upload.wikimedia.org/wikipedia/commons/b/be/Sharingan_triple.svg)
+]
+
